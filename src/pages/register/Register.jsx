@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Footter from '../../components/footer/footter';
 
 export default function Register() {
   const baseUrl = "http://localhost:8080/api";
@@ -78,15 +80,15 @@ export default function Register() {
 
   return (
     <section
-      className="vh-100"
-    //style="background-color: #eee"
+      className="h-100"
+      style={{ backgroundColor: '#eee' }}
     >
-      <div className="container h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100">
+      <div className="container h-50">
+        <div className="row d-flex justify-content-center align-items-center h-50">
           <div className="col-lg-12 col-xl-11">
             <div
               className="card text-black"
-            //style="border-radius: 25px"
+              style={{ bordeRadius: 25 + 'px' }}
             >
               <div className="card-body p-md-5">
                 <div className="row justify-content-center">
@@ -199,8 +201,8 @@ export default function Register() {
                           className="form-check-label"
                           htmlFor="form2Example3"
                         >
-                          If you have account. Please check
-                          <a href="login.html">login page</a>
+                          If you have account. Please check <Link to={'/login'}><a href="#">
+                            login page</a></Link>
                         </label>
                       </div>
 
@@ -226,6 +228,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <Footter />
     </section>
   );
 }

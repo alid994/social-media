@@ -1,14 +1,29 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css';
-import Login from './components/login/login';
-import Register from './components/register/Register';
+import Dashboard from './pages/dashboard/Dashboard';
+import Login from './pages/login/login';
+import Register from './pages/register/Register';
 
 function App() {
+
+  const Layout = () => {
+    return (
+      <div>
+
+      </div>
+    )
+  }
   return (
-    <div className="App">
-      <Login />
-      <Register />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Dashboard />} />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+

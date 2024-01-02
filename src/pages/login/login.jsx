@@ -1,4 +1,5 @@
-import Footter from './footter';
+import { Link } from 'react-router-dom';
+import Footter from '../../components/footer/footter';
 import './login.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState } from 'react';
@@ -41,6 +42,7 @@ export default function Login() {
       }).catch(error => {
         alert(`${error}`);
       });
+    localStorage.setItem('user', username)
   }
 
   return (
@@ -56,27 +58,6 @@ export default function Login() {
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form onSubmit={handleLogin}>
-              <div
-                className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
-              >
-                <p className="lead fw-normal mb-0 me-3">Sign in with</p>
-                <button type="button" className="btn btn-primary btn-floating mx-1">
-                  <i className="fab fa-facebook-f"></i>
-                </button>
-
-                <button type="button" className="btn btn-primary btn-floating mx-1">
-                  <i className="fab fa-twitter"></i>
-                </button>
-
-                <button type="button" className="btn btn-primary btn-floating mx-1">
-                  <i className="fab fa-linkedin-in"></i>
-                </button>
-              </div>
-
-              <div className="divider d-flex align-items-center my-4">
-                <p className="text-center fw-bold mx-3 mb-0">Or</p>
-              </div>
-
 
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="usernameInput">Username</label>
@@ -120,11 +101,12 @@ export default function Login() {
                   value="Login"
                   type="submit"
                   className="btn btn-primary btn-lg"
-                //style={{paddingLeft: 2.5 + 'rem'}, {paddingRight: 2.5 + 'rem'}}
                 />
+
                 <p className="small fw-bold mt-2 pt-1 mb-0">
-                  Don't have an account?
-                  <a href="register.html" className="link-danger">Register</a>
+                  Don't have an account? <Link to='/register'>
+                    <a href="#">Register</a>
+                  </Link>
                 </p>
               </div>
             </form>
