@@ -1,48 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footter from '../../components/footer/footter';
 import './login.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../context/authContext';
 
 export default function Login() {
 
-  const baseUrl = 'http://localhost:8080';
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
+  const [err, setErr] = useState(null);
 
-  function handleUsernameChange(e) {
-    setUsername(e.target.value);
+  const navigate = useNavigate()
+
+  const handleInputChange = e => {
+    setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
+  const { login } = useContext(AuthContext)
 
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
-
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
+    try {
+      await login(inputs)
+      navigate("/")
+    } catch (err) {
+      setErr(err.response.data)
+    }
 
-    //adresa backend metode
-    const backendLoginServiceMethodAddress = `${baseUrl}/api/login`;
-    //zahtjev request -> http zahtjev -> zaglavlje + tijelo (header + body)
-    const httpRequest = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    };
-
-    fetch(backendLoginServiceMethodAddress, httpRequest)
-      .then(response => {
-        if (response.ok) {
-          alert('Logovan si u aplikaciju');
-        } else {
-          alert('Nisi logovan')
-        }
-      }).catch(error => {
-        alert(`${error}`);
-      });
-    localStorage.setItem('user', username)
   }
 
   return (
@@ -62,8 +48,10 @@ export default function Login() {
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="usernameInput">Username</label>
                 <input
-                  onChange={handleUsernameChange}
+                  onChange={handleInputChange}
                   type="text"
+                  id='usernameInput'
+                  name='username'
                   className="form-control form-control-lg"
                   placeholder="Enter a valid username"
                 />
@@ -73,8 +61,10 @@ export default function Login() {
               <div className="form-outline mb-3">
                 <label className="form-label" htmlFor="passwordInput">Password</label>
                 <input
-                  onChange={handlePasswordChange}
+                  onChange={handleInputChange}
                   type="password"
+                  name='password'
+                  id='passwordInput'
                   className="form-control form-control-lg"
                   placeholder="Enter password"
                 />
@@ -96,7 +86,8 @@ export default function Login() {
                 <a href="#!" className="text-body">Forgot password?</a>
               </div>
 
-              <div className="text-center text-lg-start mt-4 pt-2">
+              <div className="d-flex flex-column gap-4 align-items-center text-center text-lg-start mt-4 pt-2">
+                {err && err}
                 <input
                   value="Login"
                   type="submit"

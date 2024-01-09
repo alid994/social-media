@@ -1,7 +1,9 @@
 function Footter() {
   const styles = {
     width: '100%',
-    zIndex: '999'
+    zIndex: '999',
+    position: 'fixed',
+    bottom: '0'
   }
 
   return (
